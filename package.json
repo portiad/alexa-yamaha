@@ -1,0 +1,14 @@
+{
+  "name": "home",
+  "version": "0.0.1",
+  "main": "services.js",
+  "scripts": {
+    "start": "node services.js"
+  },
+  "dependencies": {
+    "aws-sdk":"2.5",
+    "request":"2.74",
+    "mustache":"2.2.1",
+    "promise":"7.1.1"
+  }
+}

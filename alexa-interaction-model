@@ -1,0 +1,112 @@
+//**************************************
+//
+// Intents
+//
+//**************************************
+
+{
+  "intents": [
+    {
+      "intent": "power",
+      "slots": [
+        {
+          "name": "action",
+          "type": "LIST_OF_ACTIONS"
+        }
+      ]
+    },
+    {
+      "intent": "volume",
+      "slots": [
+        {
+          "name": "action",
+          "type": "LIST_OF_ACTIONS"
+        },
+        {
+          "name": "value",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "volume_up"
+    },
+    {
+      "intent": "volume_down"
+    },
+    {
+      "intent": "volumeLevel",
+      "slots": [
+        {
+          "name": "value",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "mute",
+      "slots": [
+        {
+          "name": "action",
+          "type": "LIST_OF_ACTIONS"
+        }
+      ]
+    },
+    {
+      "intent": "mute_on"
+    },
+        {
+      "intent": "mute_off"
+    },
+    {
+      "intent": "input",
+      "slots": [
+        {
+          "name": "inputs",
+          "type": "LIST_OF_INPUTS"
+        }
+      ]
+    },
+    {
+      "intent": "mode",
+      "slots": [
+        {
+          "name": "modes",
+          "type": "LIST_OF_MODES"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    }
+  ]
+}
+
+
+//**************************************
+//
+// Utterances
+//
+//**************************************
+
+power turn power {action}
+power turn {action}
+
+volume {action} by {value}
+volume_up louder
+volume_down quieter
+
+volumeLevel set volume to {value}
+
+mute turn mute {action}
+mute_on mute
+mute_off unmute
+
+input change input to {inputs}
+input set input to {inputs}
+
+mode change mode to {modes}
+mode set mode to {modes}

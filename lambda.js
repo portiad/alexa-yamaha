@@ -1,10 +1,10 @@
 /**
- * Send request for the receiver to SQS from Alexa
+ * Send request for home service to SQS from Alexa
  */
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
-var AWS         = require('aws-sdk');
+var AWS = require('aws-sdk');
 
 var sqsQueueUrl = ,
     sqs         = new AWS.SQS();
@@ -141,7 +141,7 @@ function onLaunch(launchRequest, session, callback) {
         ", sessionId=" + session.sessionId);
 
     // Dispatch to your skill's launch.
-    getWelcomeResponse(callback);
+    getLaunchResponse(callback);
 }
 
 /**
@@ -158,7 +158,7 @@ function onIntent(intentRequest, session, callback) {
     if (isInArray(intentName, validIntents)) {
         createMessage(intent, callback);
     } else if ("AMAZON.HelpIntent" === intentName) {
-        getWelcomeResponse(callback); 
+        getHelpResponse(callback); 
     } else if ("AMAZON.StopIntent" === intentName || "AMAZON.CancelIntent" === intentName) {
         stopSessionRequest(callback);
     } else {
@@ -178,11 +178,24 @@ function onSessionEnded(sessionEndedRequest, session) {
 
 // --------------- Functions that control the skill's behavior -----------------------
 
-function getWelcomeResponse(callback) {
+function getLaunchResponse(callback) {
+    var sessionAttributes = {};
+    var cardTitle = "Start";
+    var speechOutput = "Alpha ready.";
+    // If the user either does not reply to the welcome message or says something that is not
+    // understood, they will be prompted again with this text.
+    var repromptText = speechOutput;
+    var shouldEndSession = false;
+
+    callback(sessionAttributes,
+        buildSpeechletResponse(cardTitle, speechOutput, repromptText, shouldEndSession));
+}
+
+function getHelpResponse(callback) {
     // If we wanted to initialize the session to have some attributes we could add those here.
     var sessionAttributes = {};
-    var cardTitle = "Welcome";
-    var speechOutput = "Please tell me what action you would like the receiver to do. You can control the power, volume, input and sound modes.";
+    var cardTitle = "Help";
+    var speechOutput = "You can control the receiver's power, volume, input and sound modes.";
     // If the user either does not reply to the welcome message or says something that is not
     // understood, they will be prompted again with this text.
     var repromptText = speechOutput;

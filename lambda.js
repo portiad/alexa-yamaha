@@ -4,10 +4,12 @@
 
 // Route the incoming request based on type (LaunchRequest, IntentRequest,
 // etc.) The JSON body of the request is provided in the event parameter.
-var AWS = require('aws-sdk');
+const AWS = require('aws-sdk'),
+      sqs = new AWS.SQS();
 
-var sqsQueueUrl = ,
-    sqs         = new AWS.SQS();
+// Enter in your information
+var sqsQueueUrl     = 
+    applicationId   = 
 
 var volumeIncreaseMax = 20,
     volumeDefault     = 5;
@@ -96,7 +98,7 @@ exports.handler = function (event, context) {
 
         // Prevent someone else from configuring a skill that sends requests to this function.
         
-        if (event.session.application.applicationId !== ) {
+        if (event.session.application.applicationId !== applicationId) {
              context.fail("Invalid Application ID");
         }
 

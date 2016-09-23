@@ -94,10 +94,16 @@
 
 power turn power {action}
 power turn {action}
+power power {action}
 
 volume {action} by {value}
 volume_up louder
+volume_up volume up
+volume_up turn volume up
+
 volume_down quieter
+volume_down volume down
+volume_down turn volume down
 
 volumeLevel set volume to {value}
 
@@ -107,6 +113,9 @@ mute_off unmute
 
 input change input to {inputs}
 input set input to {inputs}
+input input to {inputs}
+input input {inputs}
 
 mode change mode to {modes}
 mode set mode to {modes}
+mode mode {modes}

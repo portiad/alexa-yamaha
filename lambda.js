@@ -8,13 +8,13 @@ const AWS = require('aws-sdk'),
       sqs = new AWS.SQS();
 
 // Enter in your information
-var sqsQueueUrl     = 
-    applicationId   = 
+const sqsQueueUrl     = 'https://sqs.us-west-2.amazonaws.com/360811133051/home',
+      applicationId   = 'amzn1.ask.skill.43823921-7d96-4456-aa8f-16a95db3bcef';
 
-var volumeIncreaseMax = 20,
-    volumeDefault     = 5;
+const volumeIncreaseMax = 20,
+      volumeDefault     = 5;
 
-var validIntents = [
+const validIntents = [
     "power",
     "volume",
     "volume_up",
@@ -26,7 +26,7 @@ var validIntents = [
     "input",
     "mode"
 ];
-var actionDictionary = {
+const actionDictionary = {
     quieter:    "Down",
     louder:     "Up",
     up:         "Up",
@@ -34,7 +34,7 @@ var actionDictionary = {
     on:         "On",
     off:        "Off"
 };
-var inputDictionary = {
+const inputDictionary = {
     hdmi1:          "HDMI1",
     hdmi2:          "HDMI2",
     hdmi3:          "HDMI3",
@@ -62,7 +62,7 @@ var inputDictionary = {
     aux:            "AUX",
     auxiliary:      "AUX"
 };
-var modeDictionary = {
+const modeDictionary = {
     '5 stereo':         "5ch Stereo",
     'music':            "Music",
     'hall munich':      "Hall in Munich",

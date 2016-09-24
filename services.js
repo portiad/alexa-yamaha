@@ -1,12 +1,7 @@
-var request   = require('request'),
-    mustache  = require('mustache'),
-    AWS       = require('aws-sdk'),
-    Promise   = require('promise');
-
-var recieverIP  = process.env.RECEIVER_IP,
-    recieverAPI = "YamahaRemoteControl/ctrl",
-    sqsQueueUrl = process.env.AWS_SQS_URL,
-    num         = 0;
+const request   = require('request'),
+      mustache  = require('mustache'),
+      AWS       = require('aws-sdk'),
+      Promise   = require('promise');
 
 AWS.config.update({
   region:           process.env.AWS_DEFAULT_REGION,
@@ -14,8 +9,12 @@ AWS.config.update({
   secretAccessKey:  process.env.AWS_SECRET_KEY
 });
 
-var command;
-var commands = {
+const recieverIP  = process.env.RECEIVER_IP,
+      recieverAPI = "YamahaRemoteControl/ctrl",
+      sqsQueueUrl = process.env.AWS_SQS_URL,
+      sqs         = new AWS.SQS();
+
+const commands = {
   power:        '<YAMAHA_AV cmd="PUT"><Main_Zone><Power_Control><Power>{{value}}</Power></Power_Control></Main_Zone></YAMAHA_AV>',
   volume:       '<YAMAHA_AV cmd="PUT"><Main_Zone><Volume><Lvl><Val>{{value}} {{value2}} dB</Val><Exp></Exp><Unit></Unit></Lvl></Volume></Main_Zone></YAMAHA_AV>', // <Val>Up 1 dB</Val>
   volumeLevel:  '<YAMAHA_AV cmd="PUT"><Main_Zone><Volume><Lvl><Val>{{value}}</Val><Exp>1</Exp><Unit>dB</Unit></Lvl></Volume></Main_Zone></YAMAHA_AV>',
@@ -24,7 +23,9 @@ var commands = {
   mode:         '<YAMAHA_AV cmd="PUT"><Main_Zone><Surround><Program_Sel><Current><Sound_Program>{{value}}</Sound_Program></Current></Program_Sel></Surround></Main_Zone></YAMAHA_AV>'
 };
 
-var sqs = new AWS.SQS();
+var num     = 0,
+    command;
+
 sqsRequest();
 
 // Poll SQS queue

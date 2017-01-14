@@ -3,6 +3,10 @@ const request   = require('request'),
       AWS       = require('aws-sdk'),
       Promise   = require('promise');
 
+process.on('uncaughtException', function (err) {
+  console.log(err);
+})
+
 AWS.config.update({
   region:           process.env.AWS_DEFAULT_REGION,
   accessKeyId:      process.env.AWS_ACCESS_KEY_ID,
@@ -46,7 +50,9 @@ function sqsRequest() {
         sendReciever(message);
         removeFromQueue(message); 
         resolve(data);
-      } else resolve(data);
+      } else { 
+        resolve(data);
+      }
       console.log(num += 1);
     });
   }).then(sqsRequest);

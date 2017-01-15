@@ -6,7 +6,7 @@ const request       = require('request'),
 
 process.on('uncaughtException', function (err) {
   console.log(err);
-})
+});
 
 AWS.config.update({
   region:           process.env.AWS_DEFAULT_REGION,
@@ -81,7 +81,7 @@ function sendReciever(message) {
     console.log(command);
 
     if (command.action === "power") {
-      if (tvUp()) {
+      if (command.value === "Standby") {
         tvOff();
       }
     }

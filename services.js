@@ -1,7 +1,8 @@
-const request   = require('request'),
-      mustache  = require('mustache'),
-      AWS       = require('aws-sdk'),
-      Promise   = require('promise');
+const request       = require('request'),
+      mustache      = require('mustache'),
+      AWS           = require('aws-sdk'),
+      Promise       = require('promise'),
+      SamsungRemote = require('samsung-remote');
 
 process.on('uncaughtException', function (err) {
   console.log(err);
@@ -16,7 +17,8 @@ AWS.config.update({
 const recieverIP  = process.env.RECEIVER_IP,
       recieverAPI = "YamahaRemoteControl/ctrl",
       sqsQueueUrl = process.env.AWS_SQS_URL,
-      sqs         = new AWS.SQS();
+      sqs         = new AWS.SQS(),
+      remote      = new SamsungRemote({ ip: process.env.TV_IP }); 
 
 const commands = {
   power:        '<YAMAHA_AV cmd="PUT"><Main_Zone><Power_Control><Power>{{value}}</Power></Power_Control></Main_Zone></YAMAHA_AV>',
@@ -56,7 +58,7 @@ function sqsRequest() {
       console.log(num += 1);
     });
   }).then(sqsRequest);
-};
+}
 
 // Remove the message from queue
 function removeFromQueue (message) {
@@ -70,14 +72,19 @@ function removeFromQueue (message) {
       else     resolve(data);
     });
   });
-};
+}
 
 // Send data to the receiver
 function sendReciever(message) {
   return new Promise(function (resolve, reject) {
     command = JSON.parse(message.Body);
     console.log(command);
-    console.log(mustache.render(commands[command.action], command));
+
+    if (command.action === "power") {
+      if (tvUp()) {
+        tvOff();
+      }
+    }
 
     request.post(
       {url:     recieverIP+recieverAPI,
@@ -90,7 +97,32 @@ function sendReciever(message) {
       }
     );
   });
-};
+}
 
+function tvUp() {
+  return new Promise(function (resolve, reject) {
+    remote.isAlive(function(err) {
+      if (err) reject(false);
+      else     resolve(true);
+    });
+  });
+}
 
+function tvOff() {
+  return new Promise(function (resolve, reject) {
+    remote.send('KEY_POWEROFF', function callback(err) {
+      if (err) reject(err);
+      else     resolve();
+    });
+  });
+}
+
+function tvOn() {
+  return new Promise(function (resolve, reject) {
+    remote.send('KEY_POWERON', function callback(err) {
+      if (err) reject(err);
+      else     resolve();
+    });
+  });
+}
 // ** build in the npm lookup function for the receiver ip

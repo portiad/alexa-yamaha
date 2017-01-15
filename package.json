@@ -6,9 +6,10 @@
     "start": "node services.js"
   },
   "dependencies": {
-    "aws-sdk":"2.x.x",
-    "request":"2.x.x",
-    "mustache":"2.x.x",
-    "promise":"7.x.x"
+    "aws-sdk"        : "2.x.x",
+    "request"        : "2.x.x",
+    "mustache"       : "2.x.x",
+    "promise"        : "7.x.x",
+    "samsung-remote" : "1.x.x"
   }
 }

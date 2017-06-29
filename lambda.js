@@ -183,7 +183,7 @@ function onSessionEnded(sessionEndedRequest, session) {
 function getLaunchResponse(callback) {
     var sessionAttributes = {};
     var cardTitle = "Start";
-    var speechOutput = "Alpha ready.";
+    var speechOutput = "T V ready.";
     // If the user either does not reply to the welcome message or says something that is not
     // understood, they will be prompted again with this text.
     var repromptText = speechOutput;
@@ -213,6 +213,10 @@ function createMessage(intent, callback) {
         var newMessage = intent.name.split("_");
         message.action = newMessage[0];
         message.value = actionDictionary[newMessage[1]];
+
+        if (message.action === "volume") {
+            message.value2 = volumeDefault;
+        } 
     } else {
         message.action = intent.name;
 
@@ -229,7 +233,7 @@ function createMessage(intent, callback) {
                         message.value2 = volumeDefault;
                     } else if (volume > volumeIncreaseMax) {
                         message.value2 = volumeIncreaseMax;
-                    }else {
+                    } else {
                         message.value2 = volume;
                     }
                 }

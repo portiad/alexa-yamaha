@@ -8,8 +8,8 @@ const AWS = require('aws-sdk'),
       sqs = new AWS.SQS();
 
 // Enter in your information
-const sqsQueueUrl     = 
-      applicationId   = 
+const sqsQueueUrl     = 'https://sqs.us-west-2.amazonaws.com/360811133051/home',
+      applicationId   = 'amzn1.ask.skill.43823921-7d96-4456-aa8f-16a95db3bcef';
 
 const volumeIncreaseMax = 20,
       volumeDefault     = 5;

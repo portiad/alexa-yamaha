@@ -1,0 +1,19 @@
+# docker-compose.yml
+# file should only be used locally
+version: "3.1"
+services:
+  worker:
+    image: portiad/alexa-yamaha:latest
+    network_mode: "host"
+    environment:
+      - AWS_SHARED_CREDENTIALS_FILE=/run/secrets/aws_shared_credentials_file
+      - AWS_PROFILE=sqs-home
+      - AWS_REGION=us-west-2
+      - AWS_SQS_URL=https://sqs.us-west-2.amazonaws.com/360811133051/home
+      - RECEIVER_IP=http://192.168.1.4
+      - TV_IP=192.168.1.5
+    secrets:
+      - aws_shared_credentials_file
+secrets:
+  aws_shared_credentials_file:
+    file: $HOME/.aws/credentials

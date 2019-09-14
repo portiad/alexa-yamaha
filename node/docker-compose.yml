@@ -1,0 +1,18 @@
+node:
+  build: .
+  dockerfile: node.df
+  volumes:
+    - .:/code
+    - /code/node_modules
+  ports:
+    - "8080:8080"
+  env_file: .env
+
+go:
+  build: .
+  dockerfile: go.df
+  volumes:
+    - ./go:/go/src/app
+  ports:
+    - "8080:8080"
+  env_file: .env

@@ -49,7 +49,7 @@ func main() {
 
 	_, err = sess.Config.Credentials.Get()
 	if err != nil {
-		fmt.Printlnn(`unable to establish aws credentials: %v`, err.Error())
+		fmt.Println(`unable to establish aws credentials: %v`, err.Error())
 		return
 	}
 

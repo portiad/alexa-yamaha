@@ -38,9 +38,9 @@ func main() {
 	_, err = sess.Config.Credentials.Get()
 	if err != nil {
 		sess, err = session.NewSession(&aws.Config{
-			Region: aws.String(region),
+			Region: aws.String(os.Getenv("AWS_REGION")),
 		})
-		
+
 		if err != nil {
 			fmt.Println("session error: : %s", err)
 			return
@@ -49,8 +49,8 @@ func main() {
 
 	_, err = sess.Config.Credentials.Get()
 	if err != nil {
-		log.Errorf(`unable to establish aws credentials: %v`, err.Error())
-		return nil, err
+		fmt.Printlnn(`unable to establish aws credentials: %v`, err.Error())
+		return
 	}
 
 	svc := sqs.New(sess)

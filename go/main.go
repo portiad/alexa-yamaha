@@ -31,7 +31,7 @@ func main() {
 	})
 
 	if err != nil {
-		fmt.Println("session error: : %s", err)
+		fmt.Println("session error: : %v", err)
 		return
 	}
 
@@ -42,7 +42,7 @@ func main() {
 		})
 
 		if err != nil {
-			fmt.Println("session error: : %s", err)
+			fmt.Println("session error: : %v", err)
 			return
 		}
 	}
@@ -76,7 +76,7 @@ func sqsRequest(svc *sqs.SQS, qURL string) {
 	})
 
 	if err != nil {
-		fmt.Println("sqs error: %s", err)
+		fmt.Println("sqs error: %v", err)
 		return
 	}
 
@@ -96,7 +96,7 @@ func removeFromQueue(svc *sqs.SQS, qURL string, result *sqs.ReceiveMessageOutput
 	})
 
 	if err != nil {
-		fmt.Println("delete error: %s", err)
+		fmt.Println("delete error: %v", err)
 		return
 	}
 }
@@ -112,20 +112,20 @@ func sendReciever(result *sqs.ReceiveMessageOutput) {
 	err := json.Unmarshal([]byte(*result.Messages[0].Body), &command)
 
 	if err != nil {
-		fmt.Println("json error: %s", err)
+		fmt.Println("json error: %v", err)
 		return
 	}
 
 	if command.Action == "power" {
 		if command.Value == "Standby" {
-			tvOff()
+			// tvOff()
 		}
 	}
 
 	data, err := mustache.Render(commands[command.Action], command)
 
 	if err != nil {
-		fmt.Println("mustache error: %s", err)
+		fmt.Println("mustache error: %v", err)
 		return
 	}
 
@@ -135,7 +135,7 @@ func sendReciever(result *sqs.ReceiveMessageOutput) {
 	resp, err := client.Do(req)
 
 	if err != nil {
-		fmt.Println("receiver error: %s", err)
+		fmt.Println("receiver error: %v", err)
 	}
 	resp.Body.Close()
 }
@@ -149,7 +149,7 @@ func tvOff() {
 
 	err := tv.SendCommand("KEY_POWEROFF")
 	if err != nil {
-		fmt.Println("tv error: %s", err)
+		fmt.Println("tv error: %v", err)
 	}
 
 }
